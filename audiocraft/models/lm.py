@@ -174,6 +174,8 @@ class LMModel(StreamingModule):
         self._init_weights(weight_init, depthwise_init, zero_bias_init)
         self._fsdp: tp.Optional[nn.Module]
         self.__dict__['_fsdp'] = None
+        self.generator = torch.Generator()
+        self.generator.manual_seed(2024)
 
     def _init_weights(self, weight_init: tp.Optional[str], depthwise_init: tp.Optional[str], zero_bias_init: bool):
         """Initialization of the transformer module weights.
@@ -386,7 +388,7 @@ class LMModel(StreamingModule):
             elif top_k > 0:
                 next_token = utils.sample_top_k(probs, k=top_k)
             else:
-                next_token = utils.multinomial(probs, num_samples=1)
+                next_token = utils.multinomial(probs, num_samples=1, generator=self.generator)
         else:
             next_token = torch.argmax(logits, dim=-1, keepdim=True)
 
