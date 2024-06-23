@@ -175,7 +175,7 @@ class LMModel(StreamingModule):
         self._fsdp: tp.Optional[nn.Module]
         self.__dict__['_fsdp'] = None
         self.generator = torch.Generator()
-        self.generator.manual_seed(2024)
+        self.generator.manual_seed(2020)
 
     def _init_weights(self, weight_init: tp.Optional[str], depthwise_init: tp.Optional[str], zero_bias_init: bool):
         """Initialization of the transformer module weights.
