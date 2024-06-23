@@ -386,7 +386,7 @@ class LMModel(StreamingModule):
             if top_p > 0.0:
                 next_token = utils.sample_top_p(probs, p=top_p)
             elif top_k > 0:
-                next_token = utils.sample_top_k(probs, k=top_k)
+                next_token = utils.sample_top_k(probs, k=top_k, generator=self.generator)
             else:
                 next_token = utils.multinomial(probs, num_samples=1, generator=self.generator)
         else:
